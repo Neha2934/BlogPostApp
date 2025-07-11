@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BlogPostApp.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BlogPostApp.Models
+namespace BlogPostSimpleApp.Models
 {
     [Table("BlogType")]
     public class BlogType
@@ -22,6 +18,6 @@ namespace BlogPostApp.Models
 
         [MaxLength(400)]
         public string Description { get; set; }
+        public List<Blog> Blogs { get; set; }
     }
 }
-

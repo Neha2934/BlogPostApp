@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogPostSimpleApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,18 @@ namespace BlogPostApp.Models
         public class Post
         {
             public int PostId { get; set; }
+        public string Title { get; set; }
+        public string Content {  get; set; }
+      
 
             // Other properties...
-
+            public int BlogId{ get; set; }  
+        public Blog Blog { get; set; }
             public int PostTypeId { get; set; }
-
+        public int UserId { get; set; }
+        public User User { get; set; }
             public PostType PostType { get; set; }
+
         }
 
     }

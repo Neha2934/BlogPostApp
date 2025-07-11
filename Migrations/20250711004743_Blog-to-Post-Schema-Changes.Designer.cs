@@ -2,16 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BlogPostApplication.Migrations
+namespace BlogPostApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250711004743_Blog-to-Post-Schema-Changes")]
+    partial class BlogtoPostSchemaChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,16 +70,11 @@ namespace BlogPostApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("PostId");
 
                     b.HasIndex("BlogId");
 
                     b.HasIndex("PostTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -131,34 +129,6 @@ namespace BlogPostApplication.Migrations
                     b.ToTable("BlogType");
                 });
 
-            modelBuilder.Entity("BlogPostSimpleApp.Models.User", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("users");
-                });
-
             modelBuilder.Entity("BlogPostApp.Models.Blog", b =>
                 {
                     b.HasOne("BlogPostSimpleApp.Models.BlogType", "BlogType")
@@ -184,17 +154,9 @@ namespace BlogPostApplication.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BlogPostSimpleApp.Models.User", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Blog");
 
                     b.Navigation("PostType");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BlogPostApp.Models.Blog", b =>
@@ -210,11 +172,6 @@ namespace BlogPostApplication.Migrations
             modelBuilder.Entity("BlogPostSimpleApp.Models.BlogType", b =>
                 {
                     b.Navigation("Blogs");
-                });
-
-            modelBuilder.Entity("BlogPostSimpleApp.Models.User", b =>
-                {
-                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,17 +1,20 @@
 ﻿using BlogPostApp.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
-public class PostType
+namespace BlogPostApp.Models
 {
-    public int PostTypeId { get; set; }
 
-    public int Status { get; set; }
+    public class PostType
+    {
+        public int PostTypeId { get; set; }
 
-    public string Name { get; set; }
+        public int Status { get; set; }
 
-    public string Description { get; set; }
+        public string Name { get; set; }
 
-    // Navigation property
-    public ICollection<Post> Posts { get; set; }
+        public string Description { get; set; }
+
+        // Navigation property
+        public List<Post> Posts { get; set; }
+    }
 }
