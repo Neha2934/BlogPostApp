@@ -1,5 +1,4 @@
-﻿using BlogPostApp.Models;
-using BlogPostSimpleApp.Models;
+﻿using BlogPostSimpleApp.Models;
 using Microsoft.EntityFrameworkCore;
 public class AppDbContext : DbContext
 {

@@ -1,4 +1,4 @@
-﻿using BlogPostApp.Models;
+﻿using BlogPostSimpleApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace BlogPostSimpleApp.Models
         public string Name { get; set; }
 
         public string Email { get; set; }
-        
+
         public string PhoneNumber { get; set; }
         public List<Post> Posts { get; set; }
     }

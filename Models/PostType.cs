@@ -1,7 +1,7 @@
-﻿using BlogPostApp.Models;
+﻿using BlogPostSimpleApp.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-namespace BlogPostApp.Models
+namespace BlogPostSimpleApp.Models
 {
 
     public class PostType

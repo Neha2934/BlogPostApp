@@ -5,7 +5,7 @@
 namespace BlogPostApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedBlogTypeEntity : Migration
+    public partial class PostTyperelationshipswithfluentAPI : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

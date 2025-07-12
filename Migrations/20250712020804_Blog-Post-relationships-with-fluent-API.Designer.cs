@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogPostApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250711003830_BlogType-to-Blog-Schema-Changes")]
-    partial class BlogTypetoBlogSchemaChanges
+    [Migration("20250712020804_Blog-Post-relationships-with-fluent-API")]
+    partial class BlogPostrelationshipswithfluentAPI
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace BlogPostApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BlogPostApp.Models.Blog", b =>
+            modelBuilder.Entity("BlogPostSimpleApp.Models.Blog", b =>
                 {
                     b.Property<int>("BlogId")
                         .ValueGeneratedOnAdd()
@@ -46,61 +46,6 @@ namespace BlogPostApp.Migrations
                     b.HasIndex("BlogTypeId");
 
                     b.ToTable("Blogs");
-                });
-
-            modelBuilder.Entity("BlogPostApp.Models.Post", b =>
-                {
-                    b.Property<int>("PostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PostTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PostId");
-
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("PostTypeId");
-
-                    b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("BlogPostApp.Models.PostType", b =>
-                {
-                    b.Property<int>("PostTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostTypeId"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostTypeId");
-
-                    b.ToTable("PostTypes");
                 });
 
             modelBuilder.Entity("BlogPostSimpleApp.Models.BlogType", b =>
@@ -129,7 +74,95 @@ namespace BlogPostApp.Migrations
                     b.ToTable("BlogType");
                 });
 
-            modelBuilder.Entity("BlogPostApp.Models.Blog", b =>
+            modelBuilder.Entity("BlogPostSimpleApp.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("PostTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("BlogPostSimpleApp.Models.PostType", b =>
+                {
+                    b.Property<int>("PostTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostTypeId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostTypeId");
+
+                    b.ToTable("PostTypes");
+                });
+
+            modelBuilder.Entity("BlogPostSimpleApp.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("users");
+                });
+
+            modelBuilder.Entity("BlogPostSimpleApp.Models.Blog", b =>
                 {
                     b.HasOne("BlogPostSimpleApp.Models.BlogType", "BlogType")
                         .WithMany("Blogs")
@@ -140,31 +173,34 @@ namespace BlogPostApp.Migrations
                     b.Navigation("BlogType");
                 });
 
-            modelBuilder.Entity("BlogPostApp.Models.Post", b =>
+            modelBuilder.Entity("BlogPostSimpleApp.Models.Post", b =>
                 {
-                    b.HasOne("BlogPostApp.Models.Blog", "Blog")
+                    b.HasOne("BlogPostSimpleApp.Models.Blog", "Blog")
                         .WithMany("Posts")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BlogPostApp.Models.PostType", "PostType")
+                    b.HasOne("BlogPostSimpleApp.Models.PostType", "PostType")
                         .WithMany("Posts")
                         .HasForeignKey("PostTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("BlogPostSimpleApp.Models.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Blog");
 
                     b.Navigation("PostType");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BlogPostApp.Models.Blog", b =>
-                {
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("BlogPostApp.Models.PostType", b =>
+            modelBuilder.Entity("BlogPostSimpleApp.Models.Blog", b =>
                 {
                     b.Navigation("Posts");
                 });
@@ -172,6 +208,16 @@ namespace BlogPostApp.Migrations
             modelBuilder.Entity("BlogPostSimpleApp.Models.BlogType", b =>
                 {
                     b.Navigation("Blogs");
+                });
+
+            modelBuilder.Entity("BlogPostSimpleApp.Models.PostType", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("BlogPostSimpleApp.Models.User", b =>
+                {
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

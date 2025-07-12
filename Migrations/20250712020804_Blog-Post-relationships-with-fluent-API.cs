@@ -5,7 +5,7 @@
 namespace BlogPostApp.Migrations
 {
     /// <inheritdoc />
-    public partial class BlogtoPostSchemaChanges : Migration
+    public partial class BlogPostrelationshipswithfluentAPI : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
